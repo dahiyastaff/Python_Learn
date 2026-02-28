@@ -8,7 +8,7 @@ print("The sum of", num1, "and", num2, "is", sum)
 difference = num1 - num2        
 print("The difference between", num1, "and", num2, "is", difference)
 
-# Multiplication of two numbers
+# Multiplication of two numbers AA
 product = num1 * num2       
 print("The product of", num1, "and", num2, "is", product)
 

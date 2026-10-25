@@ -1,15 +1,16 @@
 from fastapi import FastAPI, HTTPException, Response, status
 from fastapi.params import Query
-from pydantic import BaseModel
+from pydantic import BaseModel,EmailStr
 
 from employee_data import INITIAL_EMPLOYEES
 
 
 class EmployeeFields(BaseModel):
     name: str
-    email: str
+    email: EmailStr
     department: str
     job_title: str
+    salary: float
 
 
 class Employee(EmployeeFields):
@@ -25,13 +26,13 @@ employees: dict[int, Employee] = {
 
 @app.get("/employees", response_model=list[Employee])
 def sort_employees(
-    sort_by: str = Query(default="id", description="Field to sort by: id, name, email, department, job_title"),
+    sort_by: str = Query(default="id", description="Field to sort by: id, name, email, department, job_title, salary"),
     order: str = Query(default="asc", description="Sort order: asc or desc"),
 ) -> list[Employee]:
-    if sort_by not in {"id", "name", "email", "department", "job_title"}:
+    if sort_by not in {"id", "name", "email", "department", "job_title", "salary"}:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail="sort_by must be one of: id, name, email, department, job_title",
+            detail="sort_by must be one of: id, name, email, department, job_title, salary",
         )
     if order not in {"asc", "desc"}:
         raise HTTPException(
